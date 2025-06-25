@@ -9,7 +9,7 @@ const AsyncHandler = (fn) => {
     });
   };
 };
-
+import jwt from "jsonwebtoken";
 export const signup = AsyncHandler(async (req, res, next) => {
  
 
@@ -29,8 +29,11 @@ export const signup = AsyncHandler(async (req, res, next) => {
     email,
     password: hashpassword,
   });
-  
-  return res.status(201).json({ message: "User created successfully", user });
+  const token = jwt.sign(
+    {username: user.username, id: user._id},
+    "pinkysharkandlime"
+  )
+  return res.status(201).json({ message: "User created successfully", user , token});
 });
 
 export const login = AsyncHandler(async (req, res, next) => {
@@ -45,8 +48,11 @@ export const login = AsyncHandler(async (req, res, next) => {
   if (!match) {
     return res.status(401).json({ message: "Invalid login credentials" });
   }
-
-  return res.status(200).json({ message: "Login successful", user });
+  const token = jwt.sign(
+    { username: user.username, id: user._id },
+    "pinkysharkandlime"
+  );
+  return res.status(200).json({ message: "Login successful", user , token});
 });
 
 
