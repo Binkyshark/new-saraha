@@ -1,5 +1,8 @@
+import * as validators from './validation.js'; // ✅ اسم مختلف
+
 import {signup, login} from './controller/auth.js'
 import { Router} from "express";
+import { validation } from "../../middleware/validation.js";
 const router = Router();
 
 const AsyncHandler = (fn) => {
@@ -11,7 +14,7 @@ const AsyncHandler = (fn) => {
 };
 
 
-router.post("/signup",signup);
-router.post("/login",login )
+router.post("/signup", validation(validators.signup), signup);
+router.post("/login", validation(validators.login),login )
 
 export default router
