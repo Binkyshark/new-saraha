@@ -1,6 +1,7 @@
 import userModel from "../../../../DB/model/user.model.js";
 import bcrypt from "bcryptjs";
-
+import jwt from "jsonwebtoken";
+import * as validation from "../validation.js";
 
 const AsyncHandler = (fn) => {
   return (req, res, next) => {
@@ -9,31 +10,18 @@ const AsyncHandler = (fn) => {
     });
   };
 };
-import jwt from "jsonwebtoken";
-import * as validation from "../validation.js";
+
 export const signup = AsyncHandler(async (req, res, next) => {
  
 
   let { firstname, lastname, username, email, password } = req.body;
 
+const profilepic = req.files?.profilepic?.[0]?.filename;
+const photos = req.files?.photos?.map((file) => file.filename);
+const documents = req.files?.documents?.map((file) => file.filename);
 
 
-  //   const validationResult = validation.signup.validate(req.body, { abortEarly: false });
-
-  // if (validationResult.error) {
-  //   return res.status(400).json({
-  //     message: "Validation failed",
-  //     errors: validationResult.error.details.map((err) => err.message)
-  //   });
-  // }
-
-
-
-
-
-
-
-
+ 
 
 
   const checkuser = await userModel.findOne({ email });
@@ -49,6 +37,9 @@ export const signup = AsyncHandler(async (req, res, next) => {
     username,
     email,
     password: hashpassword,
+    profilePic: profilepic,
+   photos,
+   documents
   });
   const token = jwt.sign(
     {username: user.username, id: user._id},
@@ -59,15 +50,7 @@ export const signup = AsyncHandler(async (req, res, next) => {
 
 export const login = AsyncHandler(async (req, res, next) => {
   const { email, password } = req.body;
-  // const validationResult = validation.login.validate(req.body, {
-  //   abortEarly: false,
-  // });
-  // if (validationResult.error) {
-  //   return res.status(400).json({
-  //     message: "Validation failed",
-  //     errors: validationResult.error.details.map((err) => err.message),
-  //   });
-  // }
+ 
 
   const user = await userModel.findOne({ email });
   if (!user) {

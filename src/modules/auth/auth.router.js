@@ -3,6 +3,7 @@ import * as validators from './validation.js'; // ✅ اسم مختلف
 import {signup, login} from './controller/auth.js'
 import { Router} from "express";
 import { validation } from "../../middleware/validation.js";
+import { upload } from "../../middleware/multer.js"; 
 const router = Router();
 
 const AsyncHandler = (fn) => {
@@ -14,7 +15,20 @@ const AsyncHandler = (fn) => {
 };
 
 
-router.post("/signup", validation(validators.signup), signup);
+//  router.post("/signup/:flag", validation(validators.signup), signup);
+router.post(
+  "/signup/:flag",
+  upload.fields([
+    { name: "profilepic", maxCount: 1 },
+    { name: "photos", maxCount: 5 },
+    { name: "documents", maxCount: 5 },
+  ]),
+  validation(validators.signup),
+  signup
+);
+
 router.post("/login", validation(validators.login),login )
 
 export default router
+
+
