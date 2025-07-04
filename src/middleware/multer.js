@@ -20,6 +20,4 @@ const fileFilter = (req, file, cb) => {
     cb(new Error("Only images and PDFs are allowed"), false);
   }
 };
-
-
 export const upload = multer({ storage, fileFilter });

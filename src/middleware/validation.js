@@ -36,7 +36,7 @@
 //     next();
 //   };
 // };
-const datamethods = ['body', 'paramas', 'query', 'headers', 'file']
+const datamethods = ['body', 'parmas', 'query', 'headers', 'file']
 
 export const validation = (joiSchema) => {
   return (req, res, next) => {
