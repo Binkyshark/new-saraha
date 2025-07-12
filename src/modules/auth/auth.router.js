@@ -16,16 +16,22 @@ const AsyncHandler = (fn) => {
 
 
 //  router.post("/signup/:flag", validation(validators.signup), signup);
+// router.post(
+//   "/signup/:flag",
+//   upload.fields([
+//     { name: "profilepic", maxCount: 1 },
+//     { name: "photos", maxCount: 5 },
+//     { name: "documents", maxCount: 5 },
+//   ]),
+//   validation(validators.signup),
+//   signup
+// );
 router.post(
   "/signup/:flag",
-  upload.fields([
-    { name: "profilepic", maxCount: 1 },
-    { name: "photos", maxCount: 5 },
-    { name: "documents", maxCount: 5 },
-  ]),
   validation(validators.signup),
   signup
 );
+
 
 router.post("/login", validation(validators.login),login )
 
